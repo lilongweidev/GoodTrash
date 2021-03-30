@@ -43,6 +43,7 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
     private List<TrashResponse.NewslistBean> newslistBeanList = new ArrayList<>();//数据列表
     private SearchGoodsAdapter searchGoodsAdapter;//结果列表适配器
 
+
     @Override
     public void initData(Bundle savedInstanceState) {
         initView();
