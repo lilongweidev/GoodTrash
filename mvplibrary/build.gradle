@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //retrofit2
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    //这里用api 是为了让其他模块也可以使用gson
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //日志拦截器
+    api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //rxjava
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'io.reactivex.rxjava2:rxjava:2.2.12'
+    api 'androidx.preference:preference:1.0.0'
+    //图片加载框架
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //butterknife  绑定视图依赖BindView，告别findById，
+    //不过你还得安装一个butterknife插件才行 高版本AS中已经没有这个插件
+    api 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //Google Material控件,以及迁移到AndroidX下一些控件的依赖
+    api 'com.google.android.material:material:1.2.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    api 'androidx.annotation:annotation:1.1.0'
+    api 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //RecyclerView最好的适配器，让你的适配器一目了然，告别代码冗余
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    //下拉刷新框架
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    //没有使用特殊Header，可以不加这行
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+}
