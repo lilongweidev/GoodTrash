@@ -22,6 +22,15 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+    //修改APP加载资源目录
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+            jni.srcDirs = []    //disable automatic ndk-build
+        }
+    }
+
 }
 
 dependencies {

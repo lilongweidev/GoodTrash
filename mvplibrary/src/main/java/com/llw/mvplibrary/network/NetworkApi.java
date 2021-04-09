@@ -49,20 +49,38 @@ public class NetworkApi {
         iNetworkRequiredInfo = networkRequiredInfo;
         //当初始化这个NetworkApi时，会判断当前App的网络环境
         isFormal = NetworkEnvironmentActivity.isFormalEnvironment(networkRequiredInfo.getApplicationContext());
-        if (isFormal) {
+        /*if (isFormal) {
             //正式环境
             mBaseUrl = "http://api.tianapi.com";
         } else {
             //测试环境
             mBaseUrl = "https://cn.bing.com";
-        }
+        }*/
     }
 
     /**
      * 创建serviceClass的实例
      */
-    public static <T> T createService(Class<T> serviceClass) {
+    public static <T> T createService(Class<T> serviceClass,int type) {
+        getBaseUrl(type);
         return getRetrofit(serviceClass).create(serviceClass);
+    }
+
+    /**
+     * 修改访问地址
+     * @param type
+     */
+    private static void getBaseUrl(int type) {
+        switch (type) {
+            case 0://天气API地址
+                mBaseUrl = "http://api.tianapi.com";
+                break;
+            case 1://百度SDK地址
+                mBaseUrl = "https://aip.baidubce.com";
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -79,8 +97,9 @@ public class NetworkApi {
             int cacheSize = 100 * 1024 * 1024;
             //设置OkHttp网络缓存
             builder.cache(new Cache(iNetworkRequiredInfo.getApplicationContext().getCacheDir(), cacheSize));
-            //设置网络请求超时时长，这里设置为6s
-            builder.connectTimeout(6, TimeUnit.SECONDS);
+            //设置网络请求超时时长，这里设置为10s
+            builder.connectTimeout(10, TimeUnit.SECONDS);
+            builder.readTimeout(20, TimeUnit.SECONDS).build();
             //添加请求拦截器，如果接口有请求头的话，可以放在这个拦截器里面
             builder.addInterceptor(new RequestInterceptor(iNetworkRequiredInfo));
             //添加返回拦截器，可用于查看接口的请求耗时，对于网络优化有帮助

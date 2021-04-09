@@ -22,7 +22,60 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </com.google.android.material.appbar.MaterialToolbar>
-
+    <!--文字输入-->
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_margin="@dimen/dp_16"
+        android:gravity="center"
+        android:insetTop="@dimen/dp_0"
+        android:insetBottom="@dimen/dp_0"
+        android:onClick="jumpTextInput"
+        android:text="文字输入"
+        android:textSize="@dimen/sp_16"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:cornerRadius="@dimen/dp_12"
+        app:icon="@mipmap/icon_text_input"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/dp_24" />
+    <!--声音输入-->
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_margin="@dimen/dp_16"
+        android:gravity="center"
+        android:insetTop="@dimen/dp_0"
+        android:insetBottom="@dimen/dp_0"
+        android:onClick="jumpVoiceInput"
+        android:text="声音输入"
+        android:textSize="@dimen/sp_16"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:cornerRadius="@dimen/dp_12"
+        app:icon="@mipmap/icon_voice_input"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/dp_24" />
+    <!--图像输入-->
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_margin="@dimen/dp_16"
+        android:gravity="center"
+        android:insetTop="@dimen/dp_0"
+        android:insetBottom="@dimen/dp_0"
+        android:onClick="jumpImageInput"
+        android:text="图像输入"
+        android:textSize="@dimen/sp_16"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:cornerRadius="@dimen/dp_12"
+        app:icon="@mipmap/icon_image_input"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/dp_24" />
 
 
 </LinearLayout>

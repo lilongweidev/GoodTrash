@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.llw.goodtrash.R;
 import com.llw.goodtrash.adapter.SearchGoodsAdapter;
 import com.llw.goodtrash.contract.TextContract;
 import com.llw.goodtrash.model.TrashResponse;
 import com.llw.goodtrash.utils.Constant;
-import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.mvp.MvpActivity;
 
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
     private RecyclerView rvResult;//结果显示列表
     private List<TrashResponse.NewslistBean> newslistBeanList = new ArrayList<>();//数据列表
     private SearchGoodsAdapter searchGoodsAdapter;//结果列表适配器
+    private MaterialToolbar toolbar;//工具栏
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -60,6 +61,11 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
      * 页面初始化
      */
     private void initView() {
+        //设置状态栏
+        setStatubar(this, R.color.white, true);
+        toolbar = findViewById(R.id.toolbar);
+        back(toolbar, false);
+
         etGoods = findViewById(R.id.et_goods);
         ivClear = findViewById(R.id.iv_clear);
         rvResult = findViewById(R.id.rv_result);

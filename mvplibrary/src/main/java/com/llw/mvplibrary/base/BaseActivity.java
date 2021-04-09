@@ -9,9 +9,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
+import com.llw.mvplibrary.network.utils.StatusBarUtil;
 
 import java.util.Objects;
 
@@ -29,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
 
     private static final int FAST_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +53,40 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
     }
 
     /**
+     * 页面返回
+     *
+     * @param toolbar 标题
+     * @param isDestroy 是否销毁
+     */
+    protected void back(Toolbar toolbar, boolean isDestroy) {
+        toolbar.setNavigationOnClickListener(v -> {
+            if (isDestroy) {
+                finish();
+            } else {
+                onBackPressed();
+            }
+        });
+    }
+
+
+    /**
+     * 设置页面状态栏
+     *
+     * @param activity    目标Activity
+     * @param bgColorId   状态栏背景颜色
+     * @param isDarkTheme 状态栏主题  深色则为黑色图标和文字，浅色则为白色图标和文字
+     */
+    protected void setStatubar(AppCompatActivity activity, int bgColorId, boolean isDarkTheme) {
+        StatusBarUtil.setStatusBarColor(activity, bgColorId);
+        if (isDarkTheme) {
+            //深色
+            StatusBarUtil.StatusBarLightMode(this);
+        }
+    }
+
+    /**
      * Toast消息提示  字符
+     *
      * @param llw
      */
     protected void showMsg(CharSequence llw) {
@@ -59,9 +95,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
 
     /**
      * Toast消息提示  资源ID
+     *
      * @param resourceId
      */
-    protected void showMsg(int resourceId){
+    protected void showMsg(int resourceId) {
         Toast.makeText(context, resourceId, Toast.LENGTH_SHORT).show();
     }
 
@@ -91,9 +128,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
     /**
      * 返回 不需要参数
      */
-    protected void Back(){
+    protected void Back() {
         context.finish();
-        if(!isFastClick()){
+        if (!isFastClick()) {
             context.finish();
         }
     }
@@ -114,7 +151,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
             }
         });
     }
-
 
 
     /**

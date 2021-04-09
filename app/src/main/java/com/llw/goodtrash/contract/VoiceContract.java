@@ -10,14 +10,14 @@ import com.llw.mvplibrary.network.NetworkApi;
 import com.llw.mvplibrary.network.observer.BaseObserver;
 
 /**
- * 手动文字输入页面访问网络
+ * 语音文字输入页面访问网络
  *
  * @author llw
- * @date 2021/3/30 15:28
+ * @date 2021/4/1 16:03
  */
-public class TextContract {
+public class VoiceContract {
 
-    public static class TextPresenter extends BasePresenter<TextView> {
+    public static class VoicePresenter extends BasePresenter<VoiceView> {
         /**
          * 搜索物品
          *
@@ -44,7 +44,7 @@ public class TextContract {
         }
     }
 
-    public interface TextView extends BaseView {
+    public interface VoiceView extends BaseView {
         /**
          * 搜索物品返回
          *

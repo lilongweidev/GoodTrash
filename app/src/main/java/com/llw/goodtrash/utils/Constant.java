@@ -18,4 +18,24 @@ public class Constant {
      */
     public static final int SUCCESS_CODE = 200;
 
+    /**
+     * 百度鉴权认证参数值
+     */
+    public static final String GRANT_TYPE = "client_credentials";
+
+    /**
+     * 百度图像识别 APP ID  GoodTrash
+     */
+    public static final String APP_ID = "23943795";
+
+    /**
+     * 百度图像识别 APP Key  GoodTrash
+     */
+    public static final String API_KEY = "PAUCX7vSAd4ZBwv897GAfhEQ";
+
+    /**
+     * 百度图像识别 APP Secret  GoodTrash
+     */
+    public static final String API_SECRET = "YGEAfRbxKUtdt0LdFubvyiRiLMbHc7pK";
+
 }

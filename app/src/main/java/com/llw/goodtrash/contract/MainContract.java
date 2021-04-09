@@ -25,7 +25,7 @@ public class MainContract {
          */
         @SuppressLint("CheckResult")
         public void searchGoods(String word) {
-            ApiService service = NetworkApi.createService(ApiService.class);
+            ApiService service = NetworkApi.createService(ApiService.class,0);
             service.searchGoods(word).compose(NetworkApi.applySchedulers(new BaseObserver<TrashResponse>() {
                 @Override
                 public void onSuccess(TrashResponse groupResponse) {

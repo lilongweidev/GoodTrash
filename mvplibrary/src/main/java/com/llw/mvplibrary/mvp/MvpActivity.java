@@ -13,6 +13,7 @@ import com.llw.mvplibrary.base.BaseView;
  */
 public abstract class MvpActivity<P extends BasePresenter> extends BaseActivity {
 
+
     protected P mPresenter;
 
     /**
