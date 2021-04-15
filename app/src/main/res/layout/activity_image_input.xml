@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
+        android:elevation="@dimen/dp_2"
         app:navigationIcon="@mipmap/icon_back">
 
         <TextView
@@ -22,7 +23,8 @@
             android:textSize="18sp" />
     </com.google.android.material.appbar.MaterialToolbar>
     <!--滑动控件-->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
@@ -30,6 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -39,6 +43,22 @@
                 android:layout_height="@dimen/dp_300"
                 android:layout_marginTop="@dimen/dp_12"
                 android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/et_image_url"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_margin="@dimen/dp_1"
+                android:background="@drawable/shape_et_bg"
+                android:hint="网络图片Url"
+                android:imeOptions="actionGo"
+                android:paddingStart="@dimen/dp_12"
+                android:paddingEnd="@dimen/dp_12"
+                android:singleLine="true"
+                android:textCursorDrawable="@drawable/cursor_style"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,7 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -143,7 +164,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -159,7 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/dp_12"
-                        android:text="识别结果" />
+                        android:text="分类结果" />
 
                     <View
                         android:layout_width="@dimen/dp_30"
@@ -174,5 +196,5 @@
                     android:overScrollMode="never" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

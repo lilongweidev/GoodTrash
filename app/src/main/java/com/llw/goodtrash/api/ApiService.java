@@ -2,6 +2,7 @@ package com.llw.goodtrash.api;
 
 import com.llw.goodtrash.model.GetDiscernResultResponse;
 import com.llw.goodtrash.model.GetTokenResponse;
+import com.llw.goodtrash.model.TrashNewsResponse;
 import com.llw.goodtrash.model.TrashResponse;
 
 import io.reactivex.Observable;
@@ -57,4 +58,14 @@ public interface ApiService {
     Observable<GetDiscernResultResponse> getDiscernResult(@Field("access_token") String accessToken,
                                                           @Field("image") String image,
                                                           @Field("url") String url);
+
+    /**
+     * 垃圾分类新闻
+     * @param num 数量
+     * @return TrashNewsResponse 结果实体
+     */
+    @GET("/lajifenleinews/index?key=" + KEY)
+    Observable<TrashNewsResponse> getTrashNews(@Query("num") Integer num);
+
+
 }

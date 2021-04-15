@@ -22,6 +22,13 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </com.google.android.material.appbar.MaterialToolbar>
+
+    <!--轮播-->
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200" />
+
     <!--文字输入-->
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"

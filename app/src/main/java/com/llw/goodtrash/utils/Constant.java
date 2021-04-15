@@ -19,6 +19,19 @@ public class Constant {
     public static final int SUCCESS_CODE = 200;
 
     /**
+     * 鉴权Token
+     */
+    public static final String TOKEN = "accessToken";
+    /**
+     * 获取Token的时间
+     */
+    public static final String GET_TOKEN_TIME = "getTokenTime";
+    /**
+     * Token有效期
+     */
+    public static final String TOKEN_VALID_PERIOD = "tokenValidPeriod";
+
+    /**
      * 百度鉴权认证参数值
      */
     public static final String GRANT_TYPE = "client_credentials";

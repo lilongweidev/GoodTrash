@@ -3,6 +3,7 @@ package com.llw.goodtrash.contract;
 import android.annotation.SuppressLint;
 
 import com.llw.goodtrash.api.ApiService;
+import com.llw.goodtrash.model.TrashNewsResponse;
 import com.llw.goodtrash.model.TrashResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
@@ -19,25 +20,25 @@ public class MainContract {
 
     public static class MainPresenter extends BasePresenter<MainView> {
         /**
-         * 搜索物品
+         * 垃圾分类新闻
          *
-         * @param word 物品名
+         * @param num 数量
          */
         @SuppressLint("CheckResult")
-        public void searchGoods(String word) {
+        public void getTrashNews(Integer num) {
             ApiService service = NetworkApi.createService(ApiService.class,0);
-            service.searchGoods(word).compose(NetworkApi.applySchedulers(new BaseObserver<TrashResponse>() {
+            service.getTrashNews(num).compose(NetworkApi.applySchedulers(new BaseObserver<TrashNewsResponse>() {
                 @Override
-                public void onSuccess(TrashResponse groupResponse) {
+                public void onSuccess(TrashNewsResponse trashNewsResponse) {
                     if (getView() != null) {
-                        getView().getSearchResponse(groupResponse);
+                        getView().getTrashNewsResponse(trashNewsResponse);
                     }
                 }
 
                 @Override
                 public void onFailure(Throwable e) {
                     if (getView() != null) {
-                        getView().getSearchResponseFailed(e);
+                        getView().getTrashNewsFailed(e);
                     }
                 }
             }));
@@ -46,17 +47,17 @@ public class MainContract {
 
     public interface MainView extends BaseView {
         /**
-         * 搜索物品返回
+         * 获取垃圾分类新闻返回
          *
          * @param response
          */
-        void getSearchResponse(TrashResponse response);
+        void getTrashNewsResponse(TrashNewsResponse response);
 
         /**
          * 搜索物品异常返回
          *
          * @param throwable
          */
-        void getSearchResponseFailed(Throwable throwable);
+        void getTrashNewsFailed(Throwable throwable);
     }
 }

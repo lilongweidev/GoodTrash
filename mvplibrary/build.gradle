@@ -71,4 +71,6 @@ dependencies {
 
     //权限请求框架
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    //轮播库
+    api 'com.youth.banner:banner:2.1.0'
 }

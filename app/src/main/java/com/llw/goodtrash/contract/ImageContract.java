@@ -14,7 +14,7 @@ import com.llw.mvplibrary.network.observer.BaseObserver;
 import static com.llw.goodtrash.utils.Constant.*;
 
 /**
- * 手动文字输入页面访问网络
+ * 图像输入页面访问网络
  *
  * @author llw
  * @date 2021/3/30 15:28
@@ -61,16 +61,16 @@ public class ImageContract {
             service.getDiscernResult(token, image, url)
                     .compose(NetworkApi.applySchedulers(new BaseObserver<GetDiscernResultResponse>() {
                         @Override
-                        public void onSuccess(GetDiscernResultResponse getTokenResponse) {
+                        public void onSuccess(GetDiscernResultResponse getDiscernResultResponse) {
                             if (getView() != null) {
-                                getView().getDiscernResultResponse(getTokenResponse);
+                                getView().getDiscernResultResponse(getDiscernResultResponse);
                             }
                         }
 
                         @Override
                         public void onFailure(Throwable e) {
                             if (getView() != null) {
-                                getView().getDiscernResultfailed(e);
+                                getView().getDiscernResultFailed(e);
                             }
                         }
                     }));
@@ -130,7 +130,7 @@ public class ImageContract {
          *
          * @param throwable 异常
          */
-        void getDiscernResultfailed(Throwable throwable);
+        void getDiscernResultFailed(Throwable throwable);
 
         /**
          * 搜索物品返回
