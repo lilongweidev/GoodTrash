@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +36,7 @@
         <activity android:name=".ui.TextInputActivity" />
         <activity android:name=".ui.VoiceInputActivity" />
         <activity android:name=".ui.ImageInputActivity" />
+        <activity android:name=".ui.NewsDetailsActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

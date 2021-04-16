@@ -5,12 +5,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.llw.goodtrash.adapter.TrashNewsAdapter;
 import com.llw.goodtrash.contract.MainContract;
 import com.llw.goodtrash.model.TrashNewsResponse;
 import com.llw.goodtrash.ui.ImageInputActivity;
+import com.llw.goodtrash.ui.NewsDetailsActivity;
 import com.llw.goodtrash.ui.TextInputActivity;
 import com.llw.goodtrash.ui.VoiceInputActivity;
 import com.llw.goodtrash.utils.Constant;
@@ -20,10 +28,12 @@ import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 主页面
+ *
  * @author llw
  */
 public class MainActivity extends MvpActivity<MainContract.MainPresenter> implements MainContract.MainView {
@@ -31,10 +41,57 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
     private static final String TAG = "MainActivity";
     //轮播
     private Banner banner;
+    private RecyclerView rvNews;
+    private List<TrashNewsResponse.NewslistBean> mList = new ArrayList<>();
+    private TrashNewsAdapter mAdapter;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private AppBarLayout appBarLayout;
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        //页面初始化
+        initView();
+    }
+
+    /**
+     * 页面初始化
+     */
+    private void initView() {
         banner = findViewById(R.id.banner);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+        appBarLayout = findViewById(R.id.appbar_layout);
+        rvNews = findViewById(R.id.rv_news);
+
+        //伸缩偏移量监听
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {//收缩时
+                    collapsingToolbarLayout.setTitle("垃圾分类");
+                    isShow = true;
+                } else if (isShow) {//展开时
+                    collapsingToolbarLayout.setTitle("");
+                    isShow = false;
+                }
+            }
+        });
+        //设置列表
+        mAdapter = new TrashNewsAdapter(R.layout.item_trash_new_rv, mList);
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //跳转到新闻详情页面
+            Intent intent = new Intent(context, NewsDetailsActivity.class);
+            intent.putExtra("url", mList.get(position).getUrl());
+            startActivity(intent);
+        });
+        rvNews.setLayoutManager(new LinearLayoutManager(context));
+        rvNews.setAdapter(mAdapter);
+        //请求垃圾分类新闻数据
         mPresenter.getTrashNews(10);
     }
 
@@ -91,12 +148,24 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
             if (list.size() > 0) {
                 //数据显示
                 showBanner(list);//轮播显示
+                showList(list);//新闻列表显示
             } else {
                 showMsg("垃圾分类新闻为空");
             }
         } else {
             showMsg(response.getMsg());
         }
+    }
+
+    /**
+     * 显示新闻列表
+     *
+     * @param list
+     */
+    private void showList(List<TrashNewsResponse.NewslistBean> list) {
+        mList.clear();
+        mList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
