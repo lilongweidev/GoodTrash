@@ -1,5 +1,7 @@
 package com.llw.goodtrash.model;
 
+import org.litepal.crud.LitePalSupport;
+
 import java.util.List;
 
 /**

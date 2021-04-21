@@ -5,28 +5,35 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.gson.Gson;
 import com.llw.goodtrash.adapter.TrashNewsAdapter;
 import com.llw.goodtrash.contract.MainContract;
+import com.llw.goodtrash.model.News;
 import com.llw.goodtrash.model.TrashNewsResponse;
+import com.llw.goodtrash.model.TrashResponse;
 import com.llw.goodtrash.ui.ImageInputActivity;
 import com.llw.goodtrash.ui.NewsDetailsActivity;
 import com.llw.goodtrash.ui.TextInputActivity;
 import com.llw.goodtrash.ui.VoiceInputActivity;
+import com.llw.goodtrash.utils.AppStartUpUtils;
 import com.llw.goodtrash.utils.Constant;
+import com.llw.goodtrash.utils.NewsHelper;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +53,7 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
     private TrashNewsAdapter mAdapter;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
+    private Toolbar toolbar;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -61,6 +69,8 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         appBarLayout = findViewById(R.id.appbar_layout);
         rvNews = findViewById(R.id.rv_news);
+
+        toolbar = findViewById(R.id.toolbar);
 
         //伸缩偏移量监听
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -91,8 +101,28 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
         });
         rvNews.setLayoutManager(new LinearLayoutManager(context));
         rvNews.setAdapter(mAdapter);
-        //请求垃圾分类新闻数据
-        mPresenter.getTrashNews(10);
+
+        if (hasNetwork()) {//有网络
+            if (AppStartUpUtils.isTodayFirstStartApp(context)) {
+                //今天第一次启动
+                //请求垃圾分类新闻数据
+                mPresenter.getTrashNews(10);
+            } else {
+                //今天后续启动
+                //读取本地数据库数据
+                List<TrashNewsResponse.NewslistBean> list = NewsHelper.queryAllNews();
+                showBanner(list);//轮播显示
+                showList(list);//新闻列表显示
+            }
+        } else {//无网络
+            //加载默认数据
+            TrashNewsResponse response = new Gson().fromJson(Constant.LOCAL_NEWS_DATA, TrashNewsResponse.class);
+            mList.clear();
+            mList.addAll(response.getNewslist());
+            mAdapter.notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
@@ -149,6 +179,8 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
                 //数据显示
                 showBanner(list);//轮播显示
                 showList(list);//新闻列表显示
+                //保存新闻数据
+                NewsHelper.saveNews(list);
             } else {
                 showMsg("垃圾分类新闻为空");
             }

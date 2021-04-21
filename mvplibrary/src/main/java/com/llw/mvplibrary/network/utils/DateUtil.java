@@ -14,6 +14,12 @@ public class DateUtil {
         return sdf.format(new Date());
     }
 
+    //获取当前的日期和时间
+    public static String getDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new Date());
+    }
+
     //获取当前日期
     public static String getNowDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

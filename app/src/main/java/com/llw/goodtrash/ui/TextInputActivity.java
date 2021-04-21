@@ -20,6 +20,7 @@ import com.llw.goodtrash.adapter.SearchGoodsAdapter;
 import com.llw.goodtrash.contract.TextContract;
 import com.llw.goodtrash.model.TrashResponse;
 import com.llw.goodtrash.utils.Constant;
+import com.llw.goodtrash.utils.HistoryHelper;
 import com.llw.mvplibrary.mvp.MvpActivity;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ import java.util.List;
  */
 public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> implements TextContract.TextView {
 
-
     private static final String TAG = "TextInputActivity";
     private EditText etGoods;//输入框
     private ImageView ivClear;//清空输入框
@@ -41,6 +41,7 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
     private List<TrashResponse.NewslistBean> newslistBeanList = new ArrayList<>();//数据列表
     private SearchGoodsAdapter searchGoodsAdapter;//结果列表适配器
     private MaterialToolbar toolbar;//工具栏
+    private String word;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -104,11 +105,14 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
         //设置动作监听
         etGoods.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-                String word = etGoods.getText().toString().trim();
+                word = etGoods.getText().toString().trim();
                 if (word.isEmpty()) {
                     showMsg("请输入物品名");
                 } else {
+                    if (!hasNetwork()) {
+                        showMsg("请联网使用");
+                        return false;
+                    }
                     //显示加载弹窗
                     showLoadingDialog();
                     //控制输入法
@@ -152,6 +156,8 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
                 newslistBeanList.addAll(response.getNewslist());
                 //刷新适配器
                 searchGoodsAdapter.notifyDataSetChanged();
+                //保存到历史记录里
+                HistoryHelper.saveHistory(response.getNewslist(), word);
             } else {
                 showMsg("触及到了知识盲区");
             }

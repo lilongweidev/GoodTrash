@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <!-- 圆形图片 -->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <!--menu文字样式-->
+    <style name="MenuTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

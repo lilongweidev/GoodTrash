@@ -5,6 +5,9 @@ import com.iflytek.cloud.SpeechUtility;
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.network.NetworkApi;
 
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
+
 /**
  * 自定义Application
  *
@@ -20,5 +23,8 @@ public class TrashApplication extends BaseApplication {
 
         //配置讯飞语音SDK
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=0b5ed718");
+
+        //数据库初始化
+        LitePal.initialize(this);
     }
 }

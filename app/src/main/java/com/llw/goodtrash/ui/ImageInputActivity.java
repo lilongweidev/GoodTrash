@@ -83,8 +83,13 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
     @Override
     public void initData(Bundle savedInstanceState) {
         initView();
-        //获取Token
-        getAccessToken();
+        if (hasNetwork()) {
+            //获取Token
+            getAccessToken();
+        } else {
+            showMsg("请联网使用");
+        }
+
     }
 
     /**
@@ -157,6 +162,10 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
     @SuppressLint("CheckResult")
     @Override
     public void onClick(View v) {
+        if(!hasNetwork()){
+            showMsg("请联网使用");
+            return;
+        }
         switch (v.getId()) {
             case R.id.btn_web_picture://网络图片
                 etImageUrl.setVisibility(View.VISIBLE);

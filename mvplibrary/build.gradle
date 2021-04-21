@@ -73,4 +73,6 @@ dependencies {
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     //轮播库
     api 'com.youth.banner:banner:2.1.0'
+    //Android SQLite操作框架
+    api 'org.litepal.guolindev:core:3.1.1'
 }

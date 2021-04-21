@@ -26,6 +26,10 @@ public class NewsDetailsActivity extends BaseActivity {
         back(toolbar, false);
         //设置状态栏
         setStatubar(this, R.color.white, true);
+        if (!hasNetwork()) {
+            //获取Token
+            showMsg("请连接网络");
+        }
         //加载WebView
         loadWebView();
     }

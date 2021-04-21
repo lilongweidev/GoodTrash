@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
+import com.llw.mvplibrary.network.NetworkUtils;
 import com.llw.mvplibrary.network.utils.StatusBarUtil;
 
 import java.util.Objects;
@@ -53,9 +54,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IUiCallb
     }
 
     /**
+     * 检查当前是否打开网络
+     */
+    protected boolean hasNetwork() {
+        return (NetworkUtils.isNetWorkAvailable(context));
+    }
+
+    /**
      * 页面返回
      *
-     * @param toolbar 标题
+     * @param toolbar   标题
      * @param isDestroy 是否销毁
      */
     protected void back(Toolbar toolbar, boolean isDestroy) {
