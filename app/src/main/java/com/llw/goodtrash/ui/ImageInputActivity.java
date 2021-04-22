@@ -35,6 +35,7 @@ import com.llw.goodtrash.model.TrashResponse;
 import com.llw.goodtrash.utils.Base64Util;
 import com.llw.goodtrash.utils.Constant;
 import com.llw.goodtrash.utils.FileUtil;
+import com.llw.goodtrash.utils.HistoryHelper;
 import com.llw.goodtrash.utils.SPUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -79,6 +80,7 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
     private RxPermissions rxPermissions;
 
     private File outputImage;
+    private String word;//输入的物品
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -329,8 +331,9 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
         //添加列表Item点击
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             showLoadingDialog();
+            word = result.get(position).getKeyword();
             //垃圾分类
-            mPresenter.searchGoods(result.get(position).getKeyword());
+            mPresenter.searchGoods(word);
         });
         rvRecognitionResult.setLayoutManager(new LinearLayoutManager(this));
         rvRecognitionResult.setAdapter(adapter);
@@ -356,6 +359,8 @@ public class ImageInputActivity extends MvpActivity<ImageContract.ImagePresenter
             if (result != null && result.size() > 0) {
                 //显示分类结果
                 showClassificationResult(result);
+                //保存到历史记录里
+                HistoryHelper.saveHistory(response.getNewslist(), word);
             } else {
                 showMsg("触及到了知识盲区");
             }

@@ -9,6 +9,7 @@ import org.litepal.crud.LitePalSupport;
  */
 public class History extends LitePalSupport {
 
+    private int id;
     private String name;
     private int type;
     private int aipre;
@@ -16,6 +17,14 @@ public class History extends LitePalSupport {
     private String contain;
     private String tip;
     private String dateTime;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

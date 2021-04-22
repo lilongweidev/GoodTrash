@@ -26,7 +26,7 @@ public class HistoryAdapter extends BaseQuickAdapter<History, BaseViewHolder> {
         helper.setText(R.id.tv_name, item.getName())
                 .setText(R.id.tv_datetime,item.getDateTime())
                 .setText(R.id.tv_explain, item.getExplain())
-                .addOnClickListener(R.id.item_search_goods);
+                .addOnClickListener(R.id.btn_delete);
 
         TextView tvType = helper.getView(R.id.tv_type);
         switch (item.getType()) {

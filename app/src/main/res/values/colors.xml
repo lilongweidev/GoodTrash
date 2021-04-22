@@ -13,5 +13,6 @@
     <color name="hint_color">#929299</color>
     <color name="blue_top">#4B649C</color>
     <color name="blue">#00A6D9</color>
+    <color name="red">#FF0000</color>
 
 </resources>

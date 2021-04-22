@@ -9,9 +9,11 @@
     tools:context=".ui.HistoryActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:background="@color/white"
+        app:navigationIcon="@mipmap/icon_back">
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,11 +22,24 @@
             android:text="历史记录"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_18" />
+
+        <TextView
+            android:id="@+id/tv_all_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="deleteAll"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:text="全删"
+            android:padding="@dimen/dp_12"/>
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_2">
 
         <include
             android:id="@+id/lay_empty_data"

@@ -1,10 +1,14 @@
 package com.llw.goodtrash.utils;
 
 import android.util.Log;
+
+import com.google.gson.Gson;
 import com.llw.goodtrash.model.History;
 import com.llw.goodtrash.model.TrashResponse;
 import com.llw.mvplibrary.network.utils.DateUtil;
+
 import org.litepal.LitePal;
+
 import java.util.List;
 
 /**
@@ -26,21 +30,30 @@ public class HistoryHelper {
     }
 
     /**
-     * 通过物品名称查询历史
+     * 是否存在历史记录
      *
-     * @return 结果列表
+     * @param name 物品名
+     * @return true or false
      */
-    public static List<History> queryHistoryByName(String name) {
-        return LitePal.select(name).find(History.class);
+    public static boolean isHaveHistory(String name) {
+        List<History> histories = LitePal.where("name = ?", name).find(History.class);
+        return histories.size() > 0;
+    }
+
+
+    /**
+     * 根据id删除数据
+     * @param id id
+     */
+    public static void deleteHistoryById(long id){
+        LitePal.delete(History.class,id);
     }
 
     /**
-     * 根据Id删除历史记录
-     *
-     * @param id id
+     * 根据所有历史记录
      */
-    public static void deleteHistoryById(long id) {
-        LitePal.delete(History.class, id);
+    public static void deleteAllHistory() {
+        LitePal.deleteAll(History.class);
     }
 
     /**
@@ -49,37 +62,52 @@ public class HistoryHelper {
      * @param list 需要保存的数据
      * @param word 物品名称
      */
-    public static void saveHistory(List<TrashResponse.NewslistBean> list,String word) {
+    public static void saveHistory(List<TrashResponse.NewslistBean> list, String word) {
         for (TrashResponse.NewslistBean bean : list) {
             //遍历返回数据，找出返回结果中与搜索内容一致的数据，保存到数据表中
             if (bean.getName().equals(word)) {
                 //保存数据前先查询是否存在数据
                 List<History> historyList = queryAllHistory();
-                for (History history : historyList) {
-                    if (!history.getName().equals(bean.getName())) {
+                //有数据则遍历检查保存
+                if (historyList.size() > 0) {
+                    if (!isHaveHistory(bean.getName())) {
                         //不存在则直接保存
-                        History historyBean = new History();
-                        historyBean.setName(bean.getName());
-                        historyBean.setType(bean.getType());
-                        historyBean.setAipre(bean.getAipre());
-                        historyBean.setExplain(bean.getExplain());
-                        historyBean.setContain(bean.getContain());
-                        historyBean.setTip(bean.getTip());
-                        //添加历史记录的保存时间
-                        historyBean.setDateTime(DateUtil.getDateTime());
-                        historyBean.save();
-                        if (history.isSaved()) {
-                            Log.d(TAG, "保存历史记录成功");
-                        } else {
-                            Log.d(TAG, "保存历史记录失败");
-                        }
+                        saveHistory(bean);
                     } else {
                         Log.d(TAG, "记录已存在");
                     }
+                } else {
+                    //没有数据则直接保存
+                    saveHistory(bean);
                 }
+            } else {
+                Log.d(TAG, "没有匹配到相关结果，无法保存");
             }
         }
 
+        Log.d(TAG, new Gson().toJson(queryAllHistory()));
+    }
 
+    /**
+     * 保存历史
+     *
+     * @param bean
+     */
+    private static void saveHistory(TrashResponse.NewslistBean bean) {
+        History historyBean = new History();
+        historyBean.setName(bean.getName());
+        historyBean.setType(bean.getType());
+        historyBean.setAipre(bean.getAipre());
+        historyBean.setExplain(bean.getExplain());
+        historyBean.setContain(bean.getContain());
+        historyBean.setTip(bean.getTip());
+        //添加历史记录的保存时间
+        historyBean.setDateTime(DateUtil.getDateTime());
+        historyBean.save();
+        if (historyBean.save()) {
+            Log.d(TAG, "保存历史记录成功");
+        } else {
+            Log.d(TAG, "保存历史记录失败");
+        }
     }
 }

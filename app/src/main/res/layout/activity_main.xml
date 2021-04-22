@@ -131,5 +131,20 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <!--浮动按钮 历史记录-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/dp_20"
+        android:src="@mipmap/icon_history"
+        android:onClick="jumpHistory"
+        app:backgroundTint="@color/white"
+        app:backgroundTintMode="screen"
+        app:fabSize="mini"
+        app:hoveredFocusedTranslationZ="@dimen/dp_18"
+        app:pressedTranslationZ="@dimen/dp_18" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -41,7 +41,7 @@ public class TextInputActivity extends MvpActivity<TextContract.TextPresenter> i
     private List<TrashResponse.NewslistBean> newslistBeanList = new ArrayList<>();//数据列表
     private SearchGoodsAdapter searchGoodsAdapter;//结果列表适配器
     private MaterialToolbar toolbar;//工具栏
-    private String word;
+    private String word;//输入的物品
 
     @Override
     public void initData(Bundle savedInstanceState) {

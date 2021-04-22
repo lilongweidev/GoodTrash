@@ -14,12 +14,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.llw.goodtrash.adapter.TrashNewsAdapter;
 import com.llw.goodtrash.contract.MainContract;
-import com.llw.goodtrash.model.News;
 import com.llw.goodtrash.model.TrashNewsResponse;
-import com.llw.goodtrash.model.TrashResponse;
+import com.llw.goodtrash.ui.HistoryActivity;
 import com.llw.goodtrash.ui.ImageInputActivity;
 import com.llw.goodtrash.ui.NewsDetailsActivity;
 import com.llw.goodtrash.ui.TextInputActivity;
@@ -32,8 +32,6 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,6 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
     private TrashNewsAdapter mAdapter;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
-    private Toolbar toolbar;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -69,8 +66,6 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         appBarLayout = findViewById(R.id.appbar_layout);
         rvNews = findViewById(R.id.rv_news);
-
-        toolbar = findViewById(R.id.toolbar);
 
         //伸缩偏移量监听
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -111,8 +106,12 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
                 //今天后续启动
                 //读取本地数据库数据
                 List<TrashNewsResponse.NewslistBean> list = NewsHelper.queryAllNews();
-                showBanner(list);//轮播显示
-                showList(list);//新闻列表显示
+                if (list.size() <= 0) {
+                    mPresenter.getTrashNews(10);
+                } else {
+                    showBanner(list);//轮播显示
+                    showList(list);//新闻列表显示
+                }
             }
         } else {//无网络
             //加载默认数据
@@ -155,6 +154,13 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
      */
     public void jumpImageInput(View view) {
         gotoActivity(ImageInputActivity.class);
+    }
+
+    /**
+     * 进入历史记录页面
+     */
+    public void jumpHistory(View view) {
+        gotoActivity(HistoryActivity.class);
     }
 
     /**
@@ -229,5 +235,6 @@ public class MainActivity extends MvpActivity<MainContract.MainPresenter> implem
     public void getTrashNewsFailed(Throwable throwable) {
         Log.d(TAG, "获取垃圾分类新闻失败：" + throwable.toString());
     }
+
 
 }

@@ -16,6 +16,7 @@ import com.llw.goodtrash.adapter.SearchGoodsAdapter;
 import com.llw.goodtrash.contract.VoiceContract;
 import com.llw.goodtrash.model.TrashResponse;
 import com.llw.goodtrash.utils.Constant;
+import com.llw.goodtrash.utils.HistoryHelper;
 import com.llw.goodtrash.utils.SpeechUtil;
 import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.mvp.MvpActivity;
@@ -38,6 +39,7 @@ public class VoiceInputActivity extends MvpActivity<VoiceContract.VoicePresenter
     private List<TrashResponse.NewslistBean> newslistBeanList = new ArrayList<>();//数据列表
     private SearchGoodsAdapter searchGoodsAdapter;//结果列表适配器
     private RecyclerView rvResult;//结果列表
+    private String word;//输入的物品
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -128,6 +130,8 @@ public class VoiceInputActivity extends MvpActivity<VoiceContract.VoicePresenter
             }
             //请求接口搜索物品的垃圾分类
             showMsg("正在搜索物品：" + goodsName);
+            //语音识别结果赋值
+            word = goodsName;
             mPresenter.searchGoods(goodsName);
         });
     }
@@ -149,6 +153,8 @@ public class VoiceInputActivity extends MvpActivity<VoiceContract.VoicePresenter
                 newslistBeanList.addAll(response.getNewslist());
                 //刷新适配器
                 searchGoodsAdapter.notifyDataSetChanged();
+                //保存到历史记录里
+                HistoryHelper.saveHistory(response.getNewslist(), word);
             } else {
                 showMsg("触及到了知识盲区");
             }
